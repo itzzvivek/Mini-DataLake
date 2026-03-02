@@ -3,7 +3,8 @@
 
 ### Python ###
 
-airflow/logs/
+airflow/logs
+logs/
 data/
 
 # Byte-compiled / optimized / DLL files
@@ -177,4 +178,7 @@ poetry.toml
 # LSP config files
 pyrightconfig.json
 
+# Extra files
+inded.py
+test.py
 # End of https://www.toptal.com/developers/gitignore/api/python
