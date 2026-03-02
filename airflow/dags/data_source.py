@@ -2,7 +2,7 @@ from airflow import DAG
 from airflow.operators.python import PythonOperator
 from datetime import datetime, timedelta
 from utils.minio_client import verify_minio_load
-from source_apis import fetch_all_weather, fetch_news, fetch_crypto, fetch_countries, verify_minio_load
+from datasource_apis.source_apis import fetch_all_weather, fetch_news, fetch_crypto, fetch_countries
 
 
 default_args = {
