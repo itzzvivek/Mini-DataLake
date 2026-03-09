@@ -42,6 +42,8 @@ services:
 
   airflow:
     image: apache/airflow:2.8.1
+    env_file:
+      - .env
     container_name: airflow
     depends_on:
       - postgres

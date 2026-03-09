@@ -31,11 +31,18 @@ def fetch_all_weather():
             raise
 
 def fetch_news():
-    NEWS_API_KEY = os.getenv("NEWSAPI_KEY")
-    url = f"https://newsdata.io/api/1/latest?apikey={NEWS_API_KEY}&q=all"
-    response = requests.get(url)
-    upload_to_minio("news", response.json())
-    print(f"Fetched news data: {response.status_code}")
+    try:
+        NEWS_API_KEY = os.getenv("NEWSAPI_KEY")
+        if not NEWS_API_KEY:
+            raise ValueError("NEWSAPI_KEY env var is not set")
+        url = f"https://newsdata.io/api/1/latest?apikey={NEWS_API_KEY}&q=all"
+        response = requests.get(url, timeout=30)
+        response.raise_for_status()
+        upload_to_minio("News/news", response.json())
+        print(f"✅ Fetched news data: {response.status_code}")
+    except requests.exceptions.RequestException as e:
+        print(f"❌ Failed to fetch news: {e}")
+        raise
 
 def fetch_crypto():
     try:
@@ -54,7 +61,16 @@ def fetch_crypto():
         raise
 
 def fetch_countries():
-    url = "https://restcountries.com/v3.1/all"
-    response = requests.get(url)
-    upload_to_minio("countries", response.json())
-    print(f"Fetched countries data: {response.status_code}")
+    try:
+        url = (
+            "https://restcountries.com/v3.1/all"
+            "?fields=name,capital,population,region,subregion,"
+            "languages,currencies,timezones,flags,area"
+        )
+        response = requests.get(url, timeout=30)
+        response.raise_for_status()
+        upload_to_minio("Countries/countries", response.json())
+        print(f"Fetched countries data: {response.status_code}")
+    except requests.exceptions.RequestException as e:
+        print(f"Failed to fetch countries: {e}")
+        raise
