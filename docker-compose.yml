@@ -41,27 +41,22 @@ services:
     restart: unless-stopped
 
   airflow:
-    image: apache/airflow:2.8.1
+    build:
+      context: .
+      dockerfile: airflow.Dockerfile
+    container_name: airflow
+    # Use the GID you found from the 'stat' command here:
+    group_add:
+      - "999" 
     env_file:
       - .env
-    container_name: airflow
     depends_on:
       - postgres
       - minio
     environment:
       AIRFLOW__CORE__EXECUTOR: LocalExecutor
       AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
-      AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: "True"
-      AIRFLOW__CORE__LOAD_EXAMPLES: "False"
-      AIRFLOW__WEBSERVER__SECRET_KEY: "mysecretkey"
-      MINIO_HOST: minio
-      MINIO_PORT: "9000"
-      MINIO_ROOT_USER: minioadmin
-      MINIO_ROOT_PASSWORD: minioadmin
-      MINIO_BUCKET_NAME: minidatalake
-      _PIP_ADDITIONAL_REQUIREMENTS: "minio requests python-dotenv"
-    ports:
-      - "8088:8080"
+      # Remove _PIP_ADDITIONAL_REQUIREMENTS since they are now in the Dockerfile
     volumes:
       - ./airflow/dags:/opt/airflow/dags
       - ./airflow/logs:/opt/airflow/logs
@@ -70,13 +65,7 @@ services:
     command: >
       bash -c "
       airflow db init &&
-      airflow users create
-      --username admin
-      --firstname Admin
-      --lastname User
-      --role Admin
-      --email admin@example.com
-      --password admin &&
+      airflow users create --username admin --firstname Admin --lastname User --role Admin --email admin@example.com --password admin &&
       airflow webserver & airflow scheduler
       "
     restart: unless-stopped
