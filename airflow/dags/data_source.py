@@ -66,7 +66,7 @@ with DAG(
         "SE_SECRET_KEY": os.getenv("MINIO_ROOT_PASSWORD", "minioadmin"),
     }
 
-    ## == TRANSFORMATION TASKS (DOCKEROperator) == ##
+    ## == TRANSFORMATION TASKS == ##
     transform_weather_task = DockerOperator(
         task_id="transform_weather",
         image = "spark-app:latest",
