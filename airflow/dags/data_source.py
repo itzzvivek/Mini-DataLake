@@ -70,7 +70,6 @@ with DAG(
     transform_weather_task = DockerOperator(
         task_id="transform_weather",
         image = "spark-app:latest",
-        container_name = "spark_transform_weather",
         api_version="auto",
         auto_remove=True,
         force_pull=False,
@@ -78,12 +77,13 @@ with DAG(
         docker_url="unix://var/run/docker.sock",
         network_mode="bridge",
         environment=spark_env
+        timeout=600,
+        excecution_timeout=timedelta(minutes=15),
     )
 
     transform_news_task = DockerOperator(
         task_id="transform_news",
         image = "spark-app:latest",
-        container_name = "spark_transform_news",
         api_version="auto",
         auto_remove=True,
         force_pull=False,
@@ -91,12 +91,13 @@ with DAG(
         docker_url="unix://var/run/docker.sock",
         network_mode="bridge",
         environment=spark_env,
+        timeout=600,
+        excecution_timeout=timedelta(minutes=15),
     )
 
     transform_crypto_task = DockerOperator(
         task_id="transform_crypto",
         image = "spark-app:latest",
-        container_name = "spark_transform_crypto",
         api_version="auto",
         auto_remove=True,
         force_pull=False,
@@ -104,12 +105,13 @@ with DAG(
         docker_url="unix://var/run/docker.sock",
         network_mode="bridge",
         environment=spark_env,
+        timeout=600,
+        excecution_timeout=timedelta(minutes=15),
     )
 
     transform_countries_task = DockerOperator(
         task_id="transform_countries",
         image = "spark-app:latest",
-        container_name = "spark_transform_countries",
         api_version="auto",
         auto_remove=True,
         force_pull=False,
@@ -117,6 +119,8 @@ with DAG(
         docker_url="unix://var/run/docker.sock",
         network_mode="bridge",
         environment=spark_env,
+        timeout=600,
+        excecution_timeout=timedelta(minutes=15),
     )
 
     [weather_task, news_task, crypto_task, countries_task] >> verify_load_task
