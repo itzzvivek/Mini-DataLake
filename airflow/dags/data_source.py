@@ -71,56 +71,60 @@ with DAG(
         task_id="transform_weather",
         image = "spark-app:latest",
         api_version="auto",
+        container_name="processed_weather_data",
         auto_remove=True,
         force_pull=False,
         command=spark_command("transform_weather.py"),
         docker_url="unix://var/run/docker.sock",
         network_mode="bridge",
-        environment=spark_env
-        timeout=600,
-        excecution_timeout=timedelta(minutes=15),
+        environment=spark_env,
+        timeout=1800,
+        execution_timeout=timedelta(minutes=30),
     )
 
     transform_news_task = DockerOperator(
         task_id="transform_news",
         image = "spark-app:latest",
         api_version="auto",
+        container_name="processed_news_data",
         auto_remove=True,
         force_pull=False,
         command=spark_command("transform_news.py"),
         docker_url="unix://var/run/docker.sock",
         network_mode="bridge",
         environment=spark_env,
-        timeout=600,
-        excecution_timeout=timedelta(minutes=15),
+        timeout=1800,
+        execution_timeout=timedelta(minutes=30),
     )
 
     transform_crypto_task = DockerOperator(
         task_id="transform_crypto",
         image = "spark-app:latest",
         api_version="auto",
+        container_name="processed_crypto_data",
         auto_remove=True,
         force_pull=False,
         command=spark_command("transform_crypto.py"),
         docker_url="unix://var/run/docker.sock",
         network_mode="bridge",
         environment=spark_env,
-        timeout=600,
-        excecution_timeout=timedelta(minutes=15),
+        timeout=1800,
+        execution_timeout=timedelta(minutes=30),
     )
 
     transform_countries_task = DockerOperator(
         task_id="transform_countries",
-        image = "spark-app:latest",
+        image = "spark-app:latest", 
         api_version="auto",
+        container_name = "processed_countries_data",
         auto_remove=True,
         force_pull=False,
         command=spark_command("transform_countries.py"),
         docker_url="unix://var/run/docker.sock",
         network_mode="bridge",
         environment=spark_env,
-        timeout=600,
-        excecution_timeout=timedelta(minutes=15),
+        timeout=1800,
+        execution_timeout=timedelta(minutes=30),
     )
 
     [weather_task, news_task, crypto_task, countries_task] >> verify_load_task
