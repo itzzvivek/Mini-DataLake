@@ -14,7 +14,16 @@ MINIO_SECRET_KEY = os.getenv('MINIO_SECRET_KEY', 'minioadmin')
 MINIO_BUCKET = os.getenv('MINIO_BUCKET', 'minidatalake')
 
 def spark_command(job_script):
-    return f"spark-submit --master local[*] --packages org.apache.hadoop:hadoop-aws:3.3.1 /opt/airflow/spark_jobs/{job_script}"
+    return (
+        "spark-submit "
+        "--master local[*] "
+        "--packages io.delta:delta-spark_2.12:3.1.0,"
+        "org.apache.hadoop:hadoop-aws:3.3.4,"
+        "com.amazonaws:aws-java-sdk-bundle:1.12.262 "
+        "--conf spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension "
+        "--conf spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog "
+        f"/app/spark_jobs/{job_script}"
+    )
 
 default_args = {
     'owner': 'vivek',
