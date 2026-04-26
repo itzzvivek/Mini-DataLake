@@ -1,6 +1,6 @@
 from session import get_spark
 from pyspark.sql.functions import (
-    col, lit, current_timestamp, to_timestamp, explode, array_join, length, wheb
+    col, lit, current_timestamp, to_timestamp, explode, array_join, length, when
 )
 from datetime import datetime
 

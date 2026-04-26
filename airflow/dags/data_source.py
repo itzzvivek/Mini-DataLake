@@ -17,9 +17,6 @@ def spark_command(job_script):
     return (
         "spark-submit "
         "--master local[*] "
-        "--packages io.delta:delta-spark_2.12:3.1.0,"
-        "org.apache.hadoop:hadoop-aws:3.3.4,"
-        "com.amazonaws:aws-java-sdk-bundle:1.12.262 "
         "--conf spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension "
         "--conf spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog "
         f"/app/spark_jobs/{job_script}"
@@ -80,7 +77,6 @@ with DAG(
         task_id="transform_weather",
         image = "spark-app:latest",
         api_version="auto",
-        container_name="processed_weather_data",
         auto_remove=True,
         force_pull=False,
         command=spark_command("transform_weather.py"),
@@ -95,7 +91,6 @@ with DAG(
         task_id="transform_news",
         image = "spark-app:latest",
         api_version="auto",
-        container_name="processed_news_data",
         auto_remove=True,
         force_pull=False,
         command=spark_command("transform_news.py"),
@@ -110,7 +105,6 @@ with DAG(
         task_id="transform_crypto",
         image = "spark-app:latest",
         api_version="auto",
-        container_name="processed_crypto_data",
         auto_remove=True,
         force_pull=False,
         command=spark_command("transform_crypto.py"),
@@ -120,12 +114,11 @@ with DAG(
         timeout=1800,
         execution_timeout=timedelta(minutes=30),
     )
-
+ 
     transform_countries_task = DockerOperator(
         task_id="transform_countries",
         image = "spark-app:latest", 
         api_version="auto",
-        container_name = "processed_countries_data",
         auto_remove=True,
         force_pull=False,
         command=spark_command("transform_countries.py"),
