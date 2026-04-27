@@ -70,6 +70,7 @@ with DAG(
         "SE_ENDPOINT": f"http://{os.getenv('MINIO_HOST', 'minio')}:{os.getenv('MINIO_PORT', '9000')}",
         "SE_ACCESS_KEY": os.getenv("MINIO_ROOT_USER", "minioadmin"),
         "SE_SECRET_KEY": os.getenv("MINIO_ROOT_PASSWORD", "minioadmin"),
+        "TRANSFORM_DATE": "{{ ds }}",
     }
 
     ## == TRANSFORMATION TASKS == ##
@@ -81,10 +82,11 @@ with DAG(
         force_pull=False,
         command=spark_command("transform_weather.py"),
         docker_url="unix://var/run/docker.sock",
-        network_mode="bridge",
+        network_mode="mini-datelake_default",
         environment=spark_env,
         timeout=1800,
         execution_timeout=timedelta(minutes=30),
+        do_xcom_push=False
     )
 
     transform_news_task = DockerOperator(
@@ -95,10 +97,11 @@ with DAG(
         force_pull=False,
         command=spark_command("transform_news.py"),
         docker_url="unix://var/run/docker.sock",
-        network_mode="bridge",
+        network_mode="mini-datelake_default",
         environment=spark_env,
         timeout=1800,
         execution_timeout=timedelta(minutes=30),
+        do_xcom_push=False
     )
 
     transform_crypto_task = DockerOperator(
@@ -109,10 +112,11 @@ with DAG(
         force_pull=False,
         command=spark_command("transform_crypto.py"),
         docker_url="unix://var/run/docker.sock",
-        network_mode="bridge",
+        network_mode="mini-datelake_default",
         environment=spark_env,
         timeout=1800,
         execution_timeout=timedelta(minutes=30),
+        do_xcom_push=False
     )
  
     transform_countries_task = DockerOperator(
@@ -123,10 +127,11 @@ with DAG(
         force_pull=False,
         command=spark_command("transform_countries.py"),
         docker_url="unix://var/run/docker.sock",
-        network_mode="bridge",
+        network_mode="mini-datelake_default",
         environment=spark_env,
         timeout=1800,
         execution_timeout=timedelta(minutes=30),
+        do_xcom_push=False
     )
 
     [weather_task, news_task, crypto_task, countries_task] >> verify_load_task
