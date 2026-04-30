@@ -35,7 +35,7 @@ df_clean = df.select(
     when(col("roi").isNotNull(), col("roi.percentage").cast(FloatType()))
     .otherwise(None).alias("roi_pct"),
 ) \
-.filter(col("coin_id").isNotNUll()) \
+.filter(col("coin_id").isNotNull()) \
 .filter(col("price_usd").isNotNull()) \
 .filter(col("price_usd") > 0) \
 .withColumn("price_usd", spark_round(col("price_usd"), 4)) \

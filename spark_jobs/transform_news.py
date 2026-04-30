@@ -14,7 +14,7 @@ df = spark.read.option("multiline", "true").json(raw_path)
 
 #1. Explode result array
 df_exploded = df.select(
-    explode(col("result")).alias("a")
+    explode(col("results")).alias("a")
 )
 
 #2. Select useful fields - drop all paids -only fields

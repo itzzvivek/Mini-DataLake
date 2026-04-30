@@ -136,8 +136,10 @@ with DAG(
 
     [weather_task, news_task, crypto_task, countries_task] >> verify_load_task
 
-    verify_load_task >> [transform_weather_task, 
-                         transform_news_task, 
-                         transform_crypto_task, 
-                         transform_countries_task
-                        ]
+    # verify_load_task >> [transform_weather_task, 
+    #                      transform_news_task, 
+    #                      transform_crypto_task, 
+    #                      transform_countries_task
+    #                     ]
+
+    verify_load_task >> transform_weather_task >> transform_news_task >> transform_crypto_task >> transform_countries_task

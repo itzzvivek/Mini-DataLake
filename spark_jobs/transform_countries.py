@@ -1,5 +1,5 @@
 from session import get_spark
-from pyspark.sql.functions import col, lit, current_timestamp
+from pyspark.sql.functions import col, lit, current_timestamp, element_at
 from datetime import datetime
 
 today = datetime.utcnow().strftime("%Y-%m-%d")
@@ -18,7 +18,7 @@ df_clean = df.select(
     col("subregion"),
     col("population"),
     col("area"),
-    col("timezones").getItem("0").alias("primary_timezone")
+    element_at(col("timezones"), 1).alias("primary_timezone")
 ) \
 .filter(col("country_name").isNotNull())\
 .filter(col("population").isNotNull())\
