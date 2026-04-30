@@ -14,7 +14,7 @@ MINIO_SECRET_KEY = os.getenv('MINIO_SECRET_KEY', 'minioadmin')
 MINIO_BUCKET = os.getenv('MINIO_BUCKET', 'minidatalake')
 
 def spark_command(job_script):
-    return (
+    return 
         "spark-submit "
         "--master local[*] "
         "--conf spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension "
@@ -134,12 +134,27 @@ with DAG(
         do_xcom_push=False
     )
 
+    load_to_postgres_task = DockerOperator(
+        task_id="load_to_postgres",
+        image = "spark-app:latest", 
+        api_version="auto",
+        auto_remove=True,
+        force_pull=False,
+        command=spark_command("load_to_postgres.py"),
+        docker_url="unix://var/run/docker.sock",
+        network_mode="mini-datelake_default",
+        environment={
+            **spark_env, 
+            "POSTGRES_HOST":"postgres",
+            "POSTGRES_DB":"minidatalake",
+            "POSTGRES_USER":"postgres",
+            "POSTGRES_PASSWORD":"postgres"
+        },
+        timeout=1800,
+        execution_timeout=timedelta(minutes=30),
+        do_xcom_push=False
+    )
+    
     [weather_task, news_task, crypto_task, countries_task] >> verify_load_task
 
-    # verify_load_task >> [transform_weather_task, 
-    #                      transform_news_task, 
-    #                      transform_crypto_task, 
-    #                      transform_countries_task
-    #                     ]
-
-    verify_load_task >> transform_weather_task >> transform_news_task >> transform_crypto_task >> transform_countries_task
+    verify_load_task >> transform_weather_task >> transform_news_task >> transform_crypto_task >> transform_countries_task >> load_to_postgres_task
