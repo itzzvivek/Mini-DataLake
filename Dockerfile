@@ -20,8 +20,7 @@ RUN curl -L -o /opt/spark/jars/hadoop-aws-3.3.4.jar \
     curl -L -o /opt/spark/jars/delta-spark_2.12-3.1.0.jar \
     https://repo1.maven.org/maven2/io/delta/delta-spark_2.12/3.1.0/delta-spark_2.12-3.1.0.jar && \
     curl -L -o /opt/spark/jars/delta-storage-3.1.0.jar \
-    https://repo1.maven.org/maven2/io/delta/delta-storage/3.1.0/delta-storage-3.1.0.jar
-    # Add this to your existing RUN curl block in Dockerfile
+    https://repo1.maven.org/maven2/io/delta/delta-storage/3.1.0/delta-storage-3.1.0.jar && \
     curl -L -o /opt/spark/jars/postgresql-42.7.3.jar \
     https://repo1.maven.org/maven2/org/postgresql/postgresql/42.7.3/postgresql-42.7.3.jar
 

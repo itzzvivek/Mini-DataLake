@@ -14,7 +14,7 @@ MINIO_SECRET_KEY = os.getenv('MINIO_SECRET_KEY', 'minioadmin')
 MINIO_BUCKET = os.getenv('MINIO_BUCKET', 'minidatalake')
 
 def spark_command(job_script):
-    return 
+    return (
         "spark-submit "
         "--master local[*] "
         "--conf spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension "

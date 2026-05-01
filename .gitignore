@@ -3,6 +3,8 @@
 
 ### Python ###
 
+postgres_data
+
 airflow/logs
 logs/
 data/
