@@ -19,9 +19,10 @@ services:
     image: postgres:15
     container_name: postgres
     environment:
+      POSTGRES_HOST: postgres
       POSTGRES_USER: airflow
       POSTGRES_PASSWORD: airflow
-      POSTGRES_DB: airflow
+      POSTGRES_DB: minidatalake
     ports:
       - "5432:5432"
     volumes:

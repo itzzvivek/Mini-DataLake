@@ -147,8 +147,8 @@ with DAG(
             **spark_env, 
             "POSTGRES_HOST":"postgres",
             "POSTGRES_DB":"minidatalake",
-            "POSTGRES_USER":"postgres",
-            "POSTGRES_PASSWORD":"postgres"
+            "POSTGRES_USER":"airflow",
+            "POSTGRES_PASSWORD":"airflow"
         },
         timeout=1800,
         execution_timeout=timedelta(minutes=30),
