@@ -46,6 +46,6 @@ df_clean = df_exploded.select(
 
 out_path = f"s3a://{BUCKET}/cleaned-data/News/news/{today}"
 df_clean.write.mode("overwrite").format("delta").save(out_path)
-print(f"✅ News → {out_path} | Unique articles: {df_clean.count()}")
+print(f"News → {out_path} | Unique articles: {df_clean.count()}")
 
 spark.stop()

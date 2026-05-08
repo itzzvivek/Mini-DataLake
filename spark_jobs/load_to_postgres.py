@@ -28,10 +28,10 @@ for folder, table in datasets:
         df = spark.read.format("parquet").load(path)
 
         df.write.jdbc(POSTGRES_URL, table, mode='append', properties=POSTGRES_PROPS)
-        print(f"✅ Loaded {table} → PostgreSQL | Rows: {df.count()}")
+        print(f"Loaded {table} → PostgreSQL | Rows: {df.count()}")
 
     except Exception as e:
-        print(f"❌ Error loading {table}: {e}")
+        print(f"Error loading {table}: {e}")
         raise
 
 spark.stop()

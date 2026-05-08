@@ -26,5 +26,5 @@ def get_spark(app_name: str = "incremental_data"):
     )
 
     spark.sparkContext.setLogLevel("WARN")
-    print(f"✅ Spark session started: {app_name}")
+    print(f"Spark session started: {app_name}")
     return spark
