@@ -1,0 +1,17 @@
+FROM apache/airflow:2.8.1
+
+# Switch to root to install system-level dependencies
+USER root
+
+# Install the Docker CLI so Airflow can talk to the host's Docker daemon
+RUN apt-get update && apt-get install -y docker.io && apt-get clean
+
+# Switch back to the airflow user for security and pip installs
+USER airflow
+
+# Pre-install your requirements
+RUN pip install --no-cache-dir \
+    apache-airflow-providers-docker \
+    minio \
+    requests \
+    python-dotenv
