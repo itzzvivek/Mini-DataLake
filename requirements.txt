@@ -8,3 +8,4 @@ python-dotenv
 minio
 pyspark
 delta-spark
+psycopg2-binary
