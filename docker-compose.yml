@@ -81,7 +81,7 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - DATABASE_URL=postgresql+psycopg2://airflow:airflow@postgres/minidatalake
+      - DATABASE_URL=postgresql://airflow:airflow@localhost:5432/minidatalake
     depends_on:
       - postgres
     networks:

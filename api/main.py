@@ -30,3 +30,12 @@ def root():
         "endpoints": ["/health", "/api/countries", "/api/crypto", "/api/weather", "/api/stats"],
     }
 
+
+@app.get("/health")
+def health_check():
+    try:
+        with engine.connect() as connection:
+            connection.execute(text("SELECT 1"))
+        return {"status": "healthy", "database": "connected"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Database connection failed: {str(e)}")
