@@ -39,3 +39,16 @@ def health_check():
         return {"status": "healthy", "database": "connected"}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Database connection failed: {str(e)}")
+
+@app.get("/api/crypto/latest")
+def get_crypto_latest():
+    """Fetch the latest cryptocurrency data from the database."""
+    try:
+        with engine.connect() as conn:
+            result = conn.execute(text(
+                f"SELECT * FROM crypto_data ORDER BY timestamp DESC LIMIT {limit}"
+            ))
+            data = [dict(row._mapping) for row in result]
+        return {"status": "success", "data": data}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error fetching crypto data: {str(e)}")
