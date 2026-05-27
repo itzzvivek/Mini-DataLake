@@ -76,16 +76,20 @@ services:
     restart: unless-stopped
   
   fastapi:
-    build: ./api
+    image: python:3.10-slim
     container_name: minidatalake-api
+    working_dir: /app
     ports:
       - "8000:8000"
-    environment:
-      - DATABASE_URL=postgresql://airflow:airflow@localhost:5432/minidatalake
     depends_on:
       - postgres
-    networks:
-      - datalake
+    environment:
+      DATABASE_URL: postgresql://airflow:airflow@postgres:5432/minidatalake
+    volumes:
+      - ./api:/app
+    command: >
+      bash -c "pip install fastapi uvicorn sqlalchemy psycopg2-binary -q &&
+              uvicorn main:app --host 0.0.0.0 --port 8000 --reload"
     restart: unless-stopped
   
   nginx:

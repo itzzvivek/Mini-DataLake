@@ -19,7 +19,7 @@ app.add_middleware(
 )
 
 # Database connection
-DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://airflow:airflow@localhost:5432/minidatalake")
+DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://airflow:airflow@postgrest:5432/minidatalake")
 engine = create_engine(DATABASE_URL)
 
 @app.get("/")
