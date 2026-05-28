@@ -52,3 +52,18 @@ def get_crypto_latest(limit: int = 10):
         return {"status": "success", "data": data}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error fetching crypto data: {str(e)}")
+
+@app.get("/api/crypto/coin/{name}")
+def get_crypto_by_coin(name: str, hours: int = 24):
+    """Get specific coin data for last N hours"""
+    try:
+        since = datetime.now() - timedelta(hours=hours)
+        with engine.connect() as conn:
+            result = conn.execute(text(
+                "SELECT * FROM crypto WHERE name = :coin AND ingested_at >= :since ORDER BY ingested_at DESC",
+            ), {"coin": name, "since": since})
+            data = [dict(row._mapping) for row in result]
+        return {"coin": name,"hours": hours, "count": len(data), "data": data}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error fetching crypto data: {str(e)}")
+            
