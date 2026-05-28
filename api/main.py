@@ -66,4 +66,36 @@ def get_crypto_by_coin(name: str, hours: int = 24):
         return {"coin": name,"hours": hours, "count": len(data), "data": data}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error fetching crypto data: {str(e)}")
-            
+
+@app.get("/api/crypto/stats")
+def get_crypto_stats(hours: int = 24):
+    """Get Crypto statistics"""
+    try:
+        with engine.connect() as conn:
+            total = conn.execute(text("SELECT COUNT(*) FROM crypto")).scalar()
+            latest = conn.execute(text("SELECT ingested_at FROM crypto ORDER BY ingested_at DESC LIMIT 1")).scalar()
+            coins = conn.execute(text("SELECT DISTINCT name FROM crypto")).fetchall()
+        return {
+            "total_records": total,
+            "latest_ingested_at": latest,
+            "unique_coins": [row[0] for row in coins],
+            "coins": [c[0] for c in coins]
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error fetching crypto stats: {str(e)}")
+    
+# Weather Endpoints
+
+@app.get("/api/weather/latest")
+def get_weather_latest(limit: int = 10):
+    """Get latest weather data"""
+    try:
+        with engine.connect() as conn:
+            result = conn.execute(text(
+                f"SELECT * FROM weather ORDER BY ingested_at DESC LIMIT {limit}"
+            ))
+            data = [dict(row._mapping) for row in result]
+        return {"count": len(data), "data": data}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error fetching weather data: {str(e)}")
+
