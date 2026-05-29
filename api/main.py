@@ -140,3 +140,24 @@ def get_country_by_name(country_name: str):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error fetching countries data: {str(e)}")
 
+# Overall stats endpoint
+@app.get("/api/stats")
+def get_overall_stats():
+    """Get overall pipeline statistics"""
+    try:
+        with engine.connect() as conn:
+            crypto_count = conn.execute(text("SELECT COUNT(*) FROM crypto")).scalar()
+            weather_count = conn.execute(text("SELECT COUNT(*) FROM weather")).scalar()
+            countries_count = conn.execute(text("SELECT COUNT(*) FROM countries")).scalar()
+
+            crypto_latest = conn.execute(text("SELECT ingested_at FROM crypto ORDER BY ingested_at DESC LIMIT 1")).scalar()
+        return {
+            "pipeline_status": "active",
+            "total_records": crypto_count + weather_count + countries_count,
+            "crypto_records": crypto_count,
+            "weather_records": weather_count,
+            "countries_records": countries_count,
+            "last_update": crypto_latest,
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error fetching overall stats: {str(e)}")
