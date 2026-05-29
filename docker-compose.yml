@@ -98,7 +98,7 @@ services:
     ports:
       - "80:80"
     volumes:
-      - dashboard:/usr/share/nginx/html:ro
+      - /home/itzzvivek/Mini-Datelake/dashboard:/usr/share/nginx/html
     networks:
       - datalake
     restart: unless-stopped
