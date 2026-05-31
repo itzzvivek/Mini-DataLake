@@ -288,6 +288,121 @@
             max-height: 300px;
         }
 
+        /* Data Tables */
+        .data-section {
+            margin-bottom: 30px;
+        }
+
+        .data-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+        }
+
+        .data-card {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .data-card-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .data-card-title .icon {
+            color: white;
+            font-size: 18px;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .data-card-title .icon.crypto {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+        }
+
+        .data-card-title .icon.weather {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+        }
+
+        .data-card-title .icon.countries {
+            background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        .data-table th {
+            background: #f8fafc;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            color: #64748b;
+            border-bottom: 2px solid #e2e8f0;
+            white-space: nowrap;
+        }
+
+        .data-table td {
+            padding: 12px;
+            border-bottom: 1px solid #e2e8f0;
+            color: #475569;
+        }
+
+        .data-table tr:hover {
+            background: #f8fafc;
+        }
+
+        .data-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .value-cell {
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .small-text {
+            font-size: 11px;
+            color: #94a3b8;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 30px;
+            color: #94a3b8;
+        }
+
+        .no-data i {
+            font-size: 32px;
+            margin-bottom: 10px;
+            opacity: 0.5;
+        }
+
         /* Last Updated */
         .last-updated {
             background: rgba(255, 255, 255, 0.98);
@@ -320,39 +435,18 @@
                 font-size: 24px;
             }
 
-            .pipeline-flow {
-                gap: 10px;
-            }
-
-            .pipeline-step {
-                min-width: 80px;
-                padding: 10px 15px;
-                font-size: 11px;
-            }
-
             .stat-value {
                 font-size: 28px;
             }
 
-            .charts-grid {
-                grid-template-columns: 1fr;
+            .data-table {
+                font-size: 12px;
             }
-        }
 
-        /* Error state */
-        .error-message {
-            background: #fee2e2;
-            color: #991b1b;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .error-message i {
-            font-size: 18px;
+            .data-table th,
+            .data-table td {
+                padding: 8px;
+            }
         }
     </style>
 </head>
@@ -412,61 +506,37 @@
         <div class="stats-grid">
             <div class="stat-card">
                 <div class="stat-card-header">
-                    <div class="stat-label">
-                        <i class="fas fa-chart-pie"></i> Total Records
-                    </div>
-                    <div class="stat-icon total">
-                        <i class="fas fa-sum"></i>
-                    </div>
+                    <div class="stat-label"><i class="fas fa-chart-pie"></i> Total Records</div>
+                    <div class="stat-icon total"><i class="fas fa-sum"></i></div>
                 </div>
-                <div class="stat-value" id="totalRecords">
-                    <div class="stat-loading"></div>
-                </div>
+                <div class="stat-value" id="totalRecords"><div class="stat-loading"></div></div>
                 <div class="stat-subtext">All ingested data</div>
             </div>
 
             <div class="stat-card">
                 <div class="stat-card-header">
-                    <div class="stat-label">
-                        <i class="fas fa-coins"></i> Crypto Data
-                    </div>
-                    <div class="stat-icon crypto">
-                        <i class="fas fa-bitcoin"></i>
-                    </div>
+                    <div class="stat-label"><i class="fas fa-coins"></i> Crypto Data</div>
+                    <div class="stat-icon crypto"><i class="fas fa-bitcoin"></i></div>
                 </div>
-                <div class="stat-value" id="cryptoCount">
-                    <div class="stat-loading"></div>
-                </div>
+                <div class="stat-value" id="cryptoCount"><div class="stat-loading"></div></div>
                 <div class="stat-subtext">Records processed</div>
             </div>
 
             <div class="stat-card">
                 <div class="stat-card-header">
-                    <div class="stat-label">
-                        <i class="fas fa-cloud-sun"></i> Weather Data
-                    </div>
-                    <div class="stat-icon weather">
-                        <i class="fas fa-cloud-rain"></i>
-                    </div>
+                    <div class="stat-label"><i class="fas fa-cloud-sun"></i> Weather Data</div>
+                    <div class="stat-icon weather"><i class="fas fa-cloud-rain"></i></div>
                 </div>
-                <div class="stat-value" id="weatherCount">
-                    <div class="stat-loading"></div>
-                </div>
+                <div class="stat-value" id="weatherCount"><div class="stat-loading"></div></div>
                 <div class="stat-subtext">Records processed</div>
             </div>
 
             <div class="stat-card">
                 <div class="stat-card-header">
-                    <div class="stat-label">
-                        <i class="fas fa-globe"></i> Countries Data
-                    </div>
-                    <div class="stat-icon countries">
-                        <i class="fas fa-map"></i>
-                    </div>
+                    <div class="stat-label"><i class="fas fa-globe"></i> Countries Data</div>
+                    <div class="stat-icon countries"><i class="fas fa-map"></i></div>
                 </div>
-                <div class="stat-value" id="countriesCount">
-                    <div class="stat-loading"></div>
-                </div>
+                <div class="stat-value" id="countriesCount"><div class="stat-loading"></div></div>
                 <div class="stat-subtext">Records processed</div>
             </div>
         </div>
@@ -485,6 +555,75 @@
                     <i class="fas fa-chart-line"></i> Records Over Time
                 </h3>
                 <canvas id="trendsChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Data Tables -->
+        <div class="data-section">
+            <h2 class="data-title">
+                <i class="fas fa-table"></i> Latest Data Records
+            </h2>
+
+            <div class="data-grid">
+                <!-- Crypto Table -->
+                <div class="data-card">
+                    <h3 class="data-card-title">
+                        <span class="icon crypto"><i class="fas fa-bitcoin"></i></span>
+                        Latest Crypto Prices
+                    </h3>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Coin</th>
+                                <th>Price (USD)</th>
+                                <th>24h Change</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cryptoTableBody">
+                            <tr><td colspan="3" class="no-data"><i class="fas fa-spinner fa-spin"></i><br>Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Weather Table -->
+                <div class="data-card">
+                    <h3 class="data-card-title">
+                        <span class="icon weather"><i class="fas fa-cloud-sun"></i></span>
+                        Latest Weather Data
+                    </h3>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>City</th>
+                                <th>Temp (°C)</th>
+                                <th>Condition</th>
+                            </tr>
+                        </thead>
+                        <tbody id="weatherTableBody">
+                            <tr><td colspan="3" class="no-data"><i class="fas fa-spinner fa-spin"></i><br>Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Countries Table -->
+                <div class="data-card">
+                    <h3 class="data-card-title">
+                        <span class="icon countries"><i class="fas fa-map"></i></span>
+                        Latest Countries Data
+                    </h3>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Country</th>
+                                <th>Population</th>
+                                <th>Region</th>
+                            </tr>
+                        </thead>
+                        <tbody id="countriesTableBody">
+                            <tr><td colspan="3" class="no-data"><i class="fas fa-spinner fa-spin"></i><br>Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
@@ -532,10 +671,99 @@
                         date.toLocaleString();
                 }
 
+                // Fetch and display actual data
+                await fetchAndDisplayData();
+
             } catch (err) {
                 console.error('Error:', err);
                 document.getElementById('statusText').textContent = '⚠️ Connection Error';
             }
+        }
+
+        // Fetch and display data tables
+        async function fetchAndDisplayData() {
+            try {
+                // Fetch crypto data
+                const cryptoRes = await fetch(`${API_URL}/api/crypto/latest?limit=5`);
+                if (cryptoRes.ok) {
+                    const cryptoData = await cryptoRes.json();
+                    displayCryptoData(cryptoData.data);
+                }
+
+                // Fetch weather data
+                const weatherRes = await fetch(`${API_URL}/api/weather/latest?limit=5`);
+                if (weatherRes.ok) {
+                    const weatherData = await weatherRes.json();
+                    displayWeatherData(weatherData.data);
+                }
+
+                // Fetch countries data
+                const countriesRes = await fetch(`${API_URL}/api/countries/latest?limit=5`);
+                if (countriesRes.ok) {
+                    const countriesData = await countriesRes.json();
+                    displayCountriesData(countriesData.data);
+                }
+            } catch (err) {
+                console.error('Error fetching data:', err);
+            }
+        }
+
+        // Display crypto data
+        function displayCryptoData(data) {
+            const tbody = document.getElementById('cryptoTableBody');
+            
+            if (!data || data.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="3" class="no-data">No data available</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = data.map(row => `
+                <tr>
+                    <td class="value-cell">${row.name || row.coin_id || 'N/A'}</td>
+                    <td class="value-cell">$${(row.price_usd || 0).toFixed(2)}</td>
+                    <td>
+                        <span style="color: ${(row.price_change_24h || 0) >= 0 ? '#10b981' : '#ef4444'}">
+                            ${(row.price_change_24h_pct || 0).toFixed(2)}%
+                        </span>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Display weather data
+        function displayWeatherData(data) {
+            const tbody = document.getElementById('weatherTableBody');
+            
+            if (!data || data.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="3" class="no-data">No data available</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = data.map(row => `
+                <tr>
+                    <td class="value-cell">${row.city || row.location || 'N/A'}</td>
+                    <td class="value-cell">${(row.temperature || row.temp || 'N/A')}°C</td>
+                    <td>${row.condition || row.weather || 'N/A'}</td>
+                </tr>
+            `).join('');
+        }
+
+        // Display countries data
+        function displayCountriesData(data) {
+            const tbody = document.getElementById('countriesTableBody');
+            
+            if (!data || data.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="3" class="no-data">No data available</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = data.map(row => `
+                <tr>
+                    <td class="value-cell">${row.name || row.country || 'N/A'}</td>
+                    <td>${(row.population || row.pop || 0).toLocaleString()}</td>
+                    <td>${row.region || row.continent || 'N/A'}</td>
+                </tr>
+            `).join('');
         }
 
         // Update charts
