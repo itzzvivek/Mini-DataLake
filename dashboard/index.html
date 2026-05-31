@@ -741,9 +741,9 @@
 
             tbody.innerHTML = data.map(row => `
                 <tr>
-                    <td class="value-cell">${row.city || row.location || 'N/A'}</td>
-                    <td class="value-cell">${(row.temperature || row.temp || 'N/A')}°C</td>
-                    <td>${row.condition || row.weather || 'N/A'}</td>
+                    <td class="value-cell">${row.city || 'N/A'}</td>
+                    <td class="value-cell">${row.temp_c ?? 'N/A'}°C</td>
+                    <td>${row.weather_description || 'N/A'}</td>
                 </tr>
             `).join('');
         }
@@ -759,7 +759,7 @@
 
             tbody.innerHTML = data.map(row => `
                 <tr>
-                    <td class="value-cell">${row.name || row.country || 'N/A'}</td>
+                    <td class="value-cell">${row.name || row.country_name || 'N/A'}</td>
                     <td>${(row.population || row.pop || 0).toLocaleString()}</td>
                     <td>${row.region || row.continent || 'N/A'}</td>
                 </tr>
