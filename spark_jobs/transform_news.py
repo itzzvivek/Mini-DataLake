@@ -30,7 +30,7 @@ df_clean = df_exploded.select(
     col("a.language"),
     array_join(col("a.country"), ", ").alias("country"),
     array_join(col("a.category"), ", ").alias("category"),
-    # ✅ keywords — safe cast handles both string and array type
+    # keywords — safe cast handles both string and array type
     when(col("a.keywords").isNull(), None)
     .otherwise(col("a.keywords").cast(StringType()))
     .alias("keywords"),

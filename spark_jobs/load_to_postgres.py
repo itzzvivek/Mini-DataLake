@@ -16,10 +16,10 @@ POSTGRES_PROPS = {
 spark = get_spark("load_to_postgres")
 
 datasets = [
-    ("Weathers", "weather"),
-    ("News/news", "news"),
-    ("Crypto/crypto", "crypto"),
-    ("Countries/countries", "countries"),
+    ("Weathers/{today}", "weather"),
+    ("News/news/{today}", "news"),
+    ("Crypto/crypto/{today}", "crypto"),
+    ("Countries/countries/{today}", "countries"),
 ]
 
 for folder, table in datasets:
